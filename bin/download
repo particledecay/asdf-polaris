@@ -43,7 +43,16 @@ get_os() {
 
 # get the cpu architecture
 get_arch() {
-  uname -m
+  local -r arch=$(uname -m)
+  
+  case $arch in
+    x86_64)
+      echo amd64
+      ;;
+    *)
+      echo $arch
+      ;;
+  esac
 }
 
 # return the full URL to the download
