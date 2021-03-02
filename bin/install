@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set \
+  -o errexit \
+  -o nounset \
+  -o pipefail
+
+# required environment variables
+: ${ASDF_INSTALL_TYPE?}
+: ${ASDF_INSTALL_VERSION?}
+: ${ASDF_INSTALL_PATH?}
+: ${ASDF_DOWNLOAD_PATH?}
+
+readonly repository="fairwindsops/polaris"
+readonly toolname="polaris"
+
+install() {
+    local -r os=$(get_os)
+    local -r arch=$(get_arch)
+    local -r filename="${toolname}_${ASDF_INSTALL_VERSION}_${os}_${arch}.tar.gz"
+    local -r download_pkg="${ASDF_DOWNLOAD_PATH}/${filename}"
+
+    echo "Extracting ${toolname} from tar archive"
+    [ ! -d "${ASDF_INSTALL_PATH}/bin" ] && mkdir -p "${ASDF_INSTALL_PATH}/bin"
+    tar xf "$download_pkg" -C "${ASDF_INSTALL_PATH}/bin" "$toolname" 2>/dev/null
+    if [ $? -eq 0 ]
+    then
+      echo "Successfully installed ${toolname} ${ASDF_INSTALL_VERSION}"
+      exit 0
+    else
+      echo "Failed to install ${toolname} ${ASDF_INSTALL_VERSION}"
+      exit 1
+    fi
+}
+
+get_os() {
+  uname | tr '[:upper:]' '[:lower:]'
+}
+
+get_arch() {
+  uname -m
+}
+
+install

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set \
+  -o errexit \
+  -o nounset \
+  -o pipefail
+
+readonly repository="fairwindsops/polaris"
+
+CURL="curl -s"
+if [ -n "${OAUTH_TOKEN:-}" ];
+then
+  CURL="$CURL -H 'Authorization: token $OAUTH_TOKEN'"
+fi
+
+function sort_versions() {
+  LC_ALL=C sort -t. -k 1,1 -k 2,2n -k 3,3n
+}
+
+versions=$($CURL -fsL "https://api.github.com/repos/$repository/releases" | grep tag_name | sed 's/"tag_name": //g;s/"//g;s/,//g')
+echo "$versions" | sort_versions | xargs
