@@ -33,12 +33,12 @@ get_arch() {
   local -r arch=$(uname -m)
 
   case $arch in
-    x86_64)
-      echo amd64
-      ;;
-    *)
-      echo $arch
-      ;;
+  x86_64)
+    echo amd64
+    ;;
+  *)
+    echo $arch
+    ;;
   esac
 }
 
@@ -52,9 +52,9 @@ list_github_releases() {
   local url
   url="${GH_API}/releases?per_page=100"
 
-  curl "${curl_opts[@]}"  "$url" \
-    | grep tag_name \
-    | sed 's/"tag_name": //g;s/"//g;s/,//g'
+  curl "${curl_opts[@]}" "$url" |
+    grep tag_name |
+    sed 's/"tag_name": //g;s/"//g;s/,//g'
 }
 
 list_all_versions() {
@@ -68,15 +68,14 @@ download_release() {
   os=$(get_os)
   arch=$(get_arch)
   legacy_tarball_version="4.0.5" # this version and prior have older naming scheme
-  is_old_version=$(echo $version $legacy_tarball_version \
-    | xargs -n 1 \
-    | sort_versions \
-    | sed "/${legacy_tarball_version}/q" \
-    | awk -v version=$version '$1 == version')
+  is_old_version=$(echo $version $legacy_tarball_version |
+    xargs -n 1 |
+    sort_versions |
+    sed "/${legacy_tarball_version}/q" |
+    awk -v version=$version '$1 == version')
 
   echo "* Downloading $TOOL_NAME release $version..."
-  if [ -n "$is_old_version" ]
-  then
+  if [ -n "$is_old_version" ]; then
     remote_file="${TOOL_NAME}_${version}_${os}_${arch}.tar.gz"
   else
     remote_file="${TOOL_NAME}_${os}_${arch}.tar.gz"

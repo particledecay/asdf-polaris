@@ -1,6 +1,6 @@
 <div align="center">
 
-# asdf-polaris [![Build](https://github.com/particledecay/asdf-polaris/actions/workflows/build.yml/badge.svg)](https://github.com/particledecay/asdf-polaris/actions/workflows/build.yml) [![Lint](https://github.com/particledecay/asdf-polaris/actions/workflows/lint.yml/badge.svg)](https://github.com/particledecay/asdf-polaris/actions/workflows/lint.yml)
+# asdf-polaris [![Build](https://github.com/particledecay/asdf-polaris/actions/workflows/test.yml/badge.svg)](https://github.com/particledecay/asdf-polaris/actions/workflows/test.yml) [![Lint](https://github.com/particledecay/asdf-polaris/actions/workflows/lint.yml/badge.svg)](https://github.com/particledecay/asdf-polaris/actions/workflows/lint.yml)
 
 
 [polaris](https://github.com/FairwindsOps/polaris) plugin for the [asdf version manager](https://asdf-vm.com).
